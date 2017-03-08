@@ -1,4 +1,4 @@
-ArangoDB on kubernetes
+ArangoDB on Kubernetes
 ======================
 
 This is experimental.  The ultimate goal of this project is to allow for fully automatic scaling of ArangoDB in Kubernetes, using StatefulSets.  Pull requests are highly encouraged.
