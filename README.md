@@ -1,17 +1,17 @@
 ArangoDB on kubernetes
 ======================
 
-This is experimental.
+This is experimental.  The ultimate goal of this project is to allow for fully automatic scaling of ArangoDB in Kubernetes, using StatefulSets.  Pull requests are highly encouraged.
 
-Use like this:
+To give it a try, just run:
 
     ./makeArangoDBKube.sh
 
-and deploy the resulting file to kubernetes as in:
+and deploy the resulting file to kubernetes like so:
 
     kubectl create -f arangodb_cluster.yaml
 
-No UI scaling so far, but you can scale up the arangodb-coordinator
+No scaling via the UI so far, but you can scale-up the arangodb-coordinator
 and arangodb-dbserver deployments. The arangodb-coordinator deployment
 can safely be scaled down.
 
