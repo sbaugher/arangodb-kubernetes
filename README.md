@@ -11,7 +11,7 @@ and deploy the resulting file to kubernetes like so:
 
     kubectl create -f arangodb_cluster.yaml
 
-No scaling via the UI so far, but you can scale-up the arangodb-coordinator
+Fully automatic scaling is not supported yet, but you can scale-up the arangodb-coordinator
 and arangodb-dbserver deployments. The arangodb-coordinator deployment
 can safely be scaled down.
 
