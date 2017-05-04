@@ -1,5 +1,4 @@
-ArangoDB on Kubernetes
-======================
+# ArangoDB on Kubernetes
 
 This is experimental.  The ultimate goal of this project is to allow for fully automatic scaling of ArangoDB in Kubernetes, using StatefulSets.  Pull requests are highly encouraged.
 
@@ -19,15 +18,13 @@ See also
 
     ./makeArangoDBKube.sh --help
 
-Kubernetes Quick Start
-======================
+## Kubernetes Quick Start
 
 There are many tutorials out there on how to get Kubernetes up and running on local hardware, but the method I used, and I found works best, comes straight from the source:  https://kubernetes.io/docs/getting-started-guides/kubeadm/
 
 My local Kubernetes environment consists of one bare metal server, running nine Ubuntu 16.04 LTS VMs under VirtualBox.  I have one master, five "compute" slaves, and three "storage" slaves (I'll talk more about those below).  The installation of Kubernetes using the instructions linked to above works pretty flawlessly.
 
-Using GlusterFS as Persistent Volume Storage on Kubernetes
-==========================================================
+## Using GlusterFS as Persistent Volume Storage on Kubernetes
 
 As with any database, the important part of the equation is the data.  You don't want to lose your data just because the pod running your ArangoDB instance(s) goes down.  That problem is rather easily solved by mounting a persistent volume into the pod at /var/lib/arangodb3.  Most people, at least for development/testing purposes, use host volumes (i.e. the underlying hard disk of the pod host).
 
@@ -47,7 +44,6 @@ At the end of the above blog post, you'll see a section on creating a storage cl
 
 The last thing you (optionally) need to do is mark your new storage class as the default.  Now when a pod makes a persistent volume claim, the creation of the persistent volume will happen automagically in the background, and it will be correctly bound to the pod.
 
-Stateful Sets in Kubernetes
-===========================
+## Stateful Sets in Kubernetes
 
 Now that we have the foundation properly laid, it'd be really nice to use StatefulSets with ArangoDB, so that if for example, a database server is rescheduled to a different pod, it has access to its data.  That will be the focus of this project over the next few weeks.
