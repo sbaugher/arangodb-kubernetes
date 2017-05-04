@@ -33,10 +33,9 @@ The problem comes when the host itself goes down (i.e. a hardware failure).  Whi
 While the script works fairly well, there are a couple of caveats to be aware of before running the script:
 
 1.  All of the nodes on your Kubernetes cluster need to have the GlusterFS client installed.
-2.  You need to modprobe dm_thin_pool (or be sure it is loaded) on all of the nodes that will host GlusterFS.
-3.  You need to initialize the physical volumes on each GlusterFS node by running "pvcreate /dev/XXX -ff", where XXX is the block device you are going to let GlusterFS use for storage.  Beware that GlusterFS will destroy any existing data on that disk!
-4.  The script was built for OpenShift, but works fine on plain old Kubernetes.  You do need to make sure you tell it to the a namescape (probably "default"), otherwise it will fail right away.  My command line looked like:
-`./gk-deploy -vg /opt/topology.json -n default`
+2.  You need to `modprobe dm_thin_pool` (or be sure it is loaded) on all of the nodes that will host GlusterFS.
+3.  You need to initialize the physical volumes on each GlusterFS node by running `pvcreate /dev/XXX -ff`, where XXX is the block device you are going to let GlusterFS use for storage.  Beware that GlusterFS will destroy any existing data on that disk!
+4.  The script was built for OpenShift, but works fine on plain old Kubernetes.  You do need to make sure you tell it to the a namescape (probably "default"), otherwise it will fail right away.  My command line looked like: `./gk-deploy -vg /opt/topology.json -n default`
 
 If the script successfully executes, you should provided with a URL for the Heketi REST API.  You'll need that to create a storage class to auto-provision volumes on GlusterFS as needed.  Here's a link to a more manual method of installing GlusterFS (they use a lot of the same yaml files), with some troubleshooting ideas as well: http://blog.lwolf.org/post/how-i-deployed-glusterfs-cluster-to-kubernetes/
 
