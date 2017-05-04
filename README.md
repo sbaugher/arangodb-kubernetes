@@ -37,7 +37,7 @@ While the script works fairly well, there are a couple of caveats to be aware of
 
 1.  All of the nodes on your Kubernetes cluster need to have the GlusterFS client installed.
 2.  You need to modprobe dm_thin_pool (or be sure it is loaded) on all of the nodes that will host GlusterFS.
-3.  You need to initiateze the physical volumes on each GlusterFS node by running "pvcreate /dev/sdX -ff", where X is the block device you are going to let GlusterFS use for storage.  Beware that GlusterFS will destroy any existing data on that disk!
+3.  You need to initialize the physical volumes on each GlusterFS node by running "pvcreate /dev/sdX -ff", where X is the block device you are going to let GlusterFS use for storage.  Beware that GlusterFS will destroy any existing data on that disk!
 
 If the script successfully executes, you should provided with a URL to use as the Heketi REST API.  You'll need that to create a storage class to auto-provision volumes on GlusterFS as needed.  Here's a link to a more manual method of installing GlusterFS (they use a lot of the same yaml files), with some troubleshooting ideas as well: http://blog.lwolf.org/post/how-i-deployed-glusterfs-cluster-to-kubernetes/
 
