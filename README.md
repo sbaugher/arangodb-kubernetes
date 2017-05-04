@@ -24,7 +24,7 @@ Kubernetes Quick Start
 
 There are many tutorials out there on how to get Kubernetes up and running on local hardware, but the method I used, and I found works best, comes straight from the source:  https://kubernetes.io/docs/getting-started-guides/kubeadm/
 
-My local Kubernetes environment consists of one bare metal server, running 9 Ubuntu 16.04 LTS VMs under VirtualBox.  I have 1 master, 5 "compute" slaves, and 3 "storage" slaves (I'll talk more about those below).  The installation of Kubernetes using the instructions linked to above works pretty flawlessly.
+My local Kubernetes environment consists of one bare metal server, running nine Ubuntu 16.04 LTS VMs under VirtualBox.  I have one master, five "compute" slaves, and three "storage" slaves (I'll talk more about those below).  The installation of Kubernetes using the instructions linked to above works pretty flawlessly.
 
 Using GlusterFS as Persistent Volume Storage on Kubernetes
 ==========================================================
