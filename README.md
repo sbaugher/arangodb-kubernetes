@@ -18,3 +18,6 @@ can safely be scaled down.
 See also
 
     ./makeArangoDBKube.sh --help
+
+Kubernetes Quick Start
+======================
