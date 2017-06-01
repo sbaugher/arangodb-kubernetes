@@ -1,0 +1,200 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: arangodb-agents
+spec:
+  ports:
+    - port: 8529
+      targetPort: 8529
+  clusterIP: None
+  selector:
+    name: arangodb
+    role: agent
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: arangodb-agent
+spec:
+  serviceName: "arangodb-agents"
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        name: arangodb
+        role: agent
+    spec:
+      containers:
+        - name: arangodb
+          image: arangodb/arangodb:latest
+          env:
+            - name: IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: ARANGO_NO_AUTH
+              value: "1"
+          ports:
+            - containerPort: 8529
+          volumeMounts:
+            - mountPath: /var/lib/arangodb3
+              name: arangodb-agency-data
+          args:
+            - --server.authentication
+            - "false"
+            - --server.endpoint
+            - tcp://0.0.0.0:8529
+            - --agency.activate
+            - "true"
+            - --agency.size
+            - "3"
+            - --agency.supervision
+            - "true"
+            - --agency.my-address
+            - tcp://$(IP):8529
+            - --agency.endpoint
+            - tcp://arangodb-agent-0.arangodb-agents.default.svc.cluster.local:8529
+  volumeClaimTemplates:
+    - metadata:
+        name: arangodb-agency-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: arangodb-coords
+spec:
+  ports:
+    - port: 8529
+      targetPort: 8529
+  type: LoadBalancer
+  selector:
+    name: arangodb
+    role: coordinator
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: arangodb-coord
+spec:
+  serviceName: "arangodb-coords"
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        name: arangodb
+        role: coordinator
+    spec:
+      containers:
+        - name: arangodb
+          image: arangodb/arangodb:latest
+          env:
+            - name: IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: ARANGO_NO_AUTH
+              value: "1"
+          ports:
+            - containerPort: 8529
+          volumeMounts:
+            - mountPath: /var/lib/arangodb3
+              name: arangodb-coords-data
+          args:
+            - --server.authentication
+            - "false"
+            - --server.endpoint
+            - tcp://0.0.0.0:8529
+            - --cluster.my-role
+            - COORDINATOR
+            - --cluster.my-local-info
+            - "$(IP)"
+            - --cluster.my-address
+            - tcp://$(IP):8529
+            - --cluster.agency-endpoint
+            - tcp://arangodb-agent-0.arangodb-agents.default.svc.cluster.local:8529
+  volumeClaimTemplates:
+    - metadata:
+        name: arangodb-coords-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: arangodb-dbs
+spec:
+  ports:
+    - port: 8529
+      targetPort: 8529
+  type: LoadBalancer
+  selector:
+    name: arangodb
+    role: dbserver
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: arangodb-db
+spec:
+  serviceName: "arangodb-dbs"
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        name: arangodb
+        role: dbserver
+    spec:
+      containers:
+        - name: arangodb
+          image: arangodb/arangodb:latest
+          env:
+            - name: IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: ARANGO_NO_AUTH
+              value: "1"
+          ports:
+            - containerPort: 8529
+          volumeMounts:
+            - mountPath: /var/lib/arangodb3
+              name: arangodb-db-data
+            - mountPath: /var/lib/arangodb3-apps
+              name: arangodb-db-apps
+          args:
+            - --server.authentication
+            - "false"
+            - --server.endpoint
+            - tcp://0.0.0.0:8529
+            - --cluster.my-role
+            - PRIMARY
+            - --cluster.my-local-info
+            - "$(IP)"
+            - --cluster.my-address
+            - tcp://$(IP):8529
+            - --cluster.agency-endpoint
+            - tcp://arangodb-agent-0.arangodb-agents.default.svc.cluster.local:8529
+  volumeClaimTemplates:
+    - metadata:
+        name: arangodb-db-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi
+    - metadata:
+        name: arangodb-db-apps
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi
