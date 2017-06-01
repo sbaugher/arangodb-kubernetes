@@ -6,8 +6,6 @@ There is now a new file `clusterv2.yaml', that allows you to quickly set-up an A
 
 ## Old Method
 
-This is experimental.  The ultimate goal of this project is to allow for fully automatic scaling of ArangoDB in Kubernetes, using StatefulSets.  Pull requests are highly encouraged.
-
 To give it a try, just run:
 
     ./makeArangoDBKube.sh
