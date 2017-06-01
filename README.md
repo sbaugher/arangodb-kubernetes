@@ -1,5 +1,11 @@
 # ArangoDB on Kubernetes
 
+## New Support for StatefulSets
+
+There is now a new file `clusterv2.yaml', that allows you to quickly set-up an ArangoDB cluster on Kubernetes.  This script should work with Kubernetes 1.5 and above.  If you can, I'd recommend using this method to get your cluster up and running.
+
+## Old Method
+
 This is experimental.  The ultimate goal of this project is to allow for fully automatic scaling of ArangoDB in Kubernetes, using StatefulSets.  Pull requests are highly encouraged.
 
 To give it a try, just run:
@@ -45,4 +51,13 @@ The last thing you (optionally) need to do is mark your new storage class as the
 
 ## Stateful Sets in Kubernetes
 
-Now that we have the foundation properly laid, it'd be really nice to use StatefulSets with ArangoDB, so that if for example, a database server is rescheduled to a different pod, it has access to its data.  That will be the focus of this project over the next few weeks.
+With the new script, StatefulSets are now fully supported.  You can use GlusterFS (see above) for persistent volume storage, or your favorite cloud provider's persistent storage mechanism.  Either way, every node in the cluster has it's own persistent storage, that will follow it around the cluster if/when it gets rescheduled on a different node.
+
+You can scale your nodes down using Kubernetes, but be aware of two things:
+
+1.  If you haven't set a replcation factor >= 2, you will lose data!
+2.  The built-in ArangoDB cluster health will continue to show the node as down.
+
+Both problems can be overcome by using the ArangoDB REST api to take a server offline first (to solve problem #1), and to remove a permanently downed server from the cluster (to solve problem #2).
+
+The above two issues are next-up on the development roadmap for this project.
