@@ -2,7 +2,7 @@
 
 ## New Support for StatefulSets
 
-There is now a new file `clusterv2.yaml', that allows you to quickly set-up an ArangoDB cluster on Kubernetes.  This script should work with Kubernetes 1.5 and above.  If you can, I'd recommend using this method to get your cluster up and running.
+There is now a new file `clusterv2.yaml`, that allows you to quickly set-up an ArangoDB cluster on Kubernetes.  This script should work with Kubernetes 1.5 and above.  If you can, I'd recommend using this method to get your cluster up and running.
 
 ## Old Method
 
