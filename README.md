@@ -2,7 +2,7 @@
 
 ## New Project from the Mothership
 
-As of March, 20, 2018, ArangoDB has released a Kubernetes project of their own.  It can be found at: https://github.com/arangodb/kube-arangodb  For those of you using this project, I'd encourage you to checkout their project.  While it is not yet production ready, it will inevitably surpass this project in terms of robustness and support.
+As of March 20, 2018, ArangoDB has released a Kubernetes project of their own.  It can be found at: https://github.com/arangodb/kube-arangodb  For those of you using this project, I'd encourage you to checkout their project.  While it is not yet production ready, it will inevitably surpass this project in terms of robustness and support.
 
 ## New Support for StatefulSets
 
