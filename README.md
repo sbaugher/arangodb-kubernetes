@@ -1,5 +1,9 @@
 # ArangoDB on Kubernetes
 
+## New Project from the Mothership
+
+As of March, 20, 2018, ArangoDB has released a Kubernetes project of their own.  It can be found at: https://github.com/arangodb/kube-arangodb  For those of you using this project, I'd encourage you to checkout their project.  While it is not yet production ready, it will inevitably surpass this project in terms of robustness and support.
+
 ## New Support for StatefulSets
 
 There is now a new file `clusterv2.yaml`, that allows you to quickly set-up an ArangoDB cluster on Kubernetes.  This script should work with Kubernetes 1.5 and above.  If you can, I'd recommend using this method to get your cluster up and running.
